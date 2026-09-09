@@ -1,61 +1,62 @@
-# Multi-Agent Systems with CrewAI 🤖🚀
-
-A modernized, production-ready implementation of multi-agent workflows based on the DeepLearning.AI **Multi-AI Agent Systems with crewAI** course, updated for **CrewAI 1.x** (`1.15.20+`).
-
-This repository demonstrates how to architect, ground, and run autonomous AI agents in parallel and sequence using cloud LLMs (Fireworks AI, Groq, or OpenAI) without local hardware constraints or deprecated LangChain wrappers.
+<div align="center">
+  <img src="https://github.com/crewAIInc/crewAI/blob/main/docs/images/crewai_logo.png?raw=true" alt="CrewAI Logo" width="420"/>
+  <h3>Multi-Agent Workflows with CrewAI 1.x</h3>
+  <p>Production-ready multi-agent implementations based on the DeepLearning.AI course, refactored for modern CrewAI standards.</p>
+</div>
 
 ---
 
-## 📂 Projects Included
+## Overview
 
-### 1. Research & Content Creation Crew (Lesson 2)
-A sequential multi-agent editorial team that researches, drafts, and proofreads articles on any given topic.
-* **Notebook:** [`crewai_agent.ipynb`](crewai_agent.ipynb)
-* **Script:** [`main.py`](main.py)
+This repository contains modernized implementations of the agentic workflows taught in DeepLearning.AI's **Multi-AI Agent Systems with crewAI**. The original course material was built on CrewAI `0.28.x` and LangChain wrappers; this repository updates those patterns to **CrewAI 1.x** (`1.15.20+`), utilizing native cloud LLM providers, structured environment configuration, and explicit agent delegation.
+
+## Included Pipelines
+
+### 1. Research & Editorial Pipeline (Lesson 2)
+A sequential multi-agent workflow that coordinates planning, drafting, and editorial review.
+* **Implementation:** [`main.py`](main.py) | [`crewai_agent.ipynb`](crewai_agent.ipynb)
 * **Agents:**
-  * 📋 **Content Planner:** Outlines key trends, audience analysis, and SEO keywords.
-  * ✍️ **Content Writer:** Drafts a cohesive, insightful article based on the outline.
-  * 🧐 **Editor:** Polishes grammar, verifies tone, and ensures journalistic integrity.
+  * **Content Planner:** Outlines topics, identifies key trends, target audiences, and SEO requirements.
+  * **Content Writer:** Drafts the piece following the planner's structural outline.
+  * **Editor:** Audits the draft for tone, factual framing, readability, and brand compliance.
 
-### 2. Automated Customer Support with Web Scraping (Lesson 3)
-A collaborative customer support pipeline that retrieves live documentation via web scraping and performs quality-assurance audits with agent delegation.
-* **Notebook:** [`customer_support.ipynb`](customer_support.ipynb)
-* **Script:** [`customer_support.py`](customer_support.py)
-* **Exported Sample Output:** [`support_ticket_reply.md`](support_ticket_reply.md)
+### 2. Customer Support Automation with Grounded Scraping (Lesson 3)
+A collaborative customer support workflow integrating live web scraping and quality assurance delegation.
+* **Implementation:** [`customer_support.py`](customer_support.py) | [`customer_support.ipynb`](customer_support.ipynb)
+* **Sample Output:** [`support_ticket_reply.md`](support_ticket_reply.md)
 * **Agents & Tools:**
-  * 🎧 **Senior Support Representative:** Uses `ScrapeWebsiteTool` to extract real-time documentation and formulate factually grounded replies.
-  * 🛡️ **QA Specialist:** Audits answers for accuracy, completeness, and friendly tone, with `allow_delegation=True` to send feedback back to the Support Agent for revisions.
+  * **Senior Support Representative:** Uses `ScrapeWebsiteTool` to fetch real-time documentation and construct grounded replies.
+  * **Support QA Specialist:** Evaluates the draft for technical accuracy and tone, delegating back to the support agent if revisions are required.
 
 ---
 
-## ⚡ Key Modernizations (Course v0.28 vs. Modern v1.x)
+## Technical Differences: Course (v0.28.x) vs. Modern (v1.x)
 
-| Feature | Legacy Course (`0.28.x`) | Modern Implementation (`1.15.x`) |
+| Dimension | Legacy Course Code (`0.28.x`) | Modern Implementation (`1.15.x`) |
 | :--- | :--- | :--- |
-| **LLM Engine** | Tied to legacy `langchain_community` wrappers | Native CrewAI `LLM` class connecting to any OpenAI-compatible cloud provider |
-| **Credentials** | Interactive `getpass.getpass()` (freezes in notebooks) | Robust `.env` loading via `python-dotenv` |
-| **Agent Delegation** | Defaulted to `True` | Defaulted to `False` (explicitly configured `allow_delegation=True` on QA) |
-| **Tool Execution** | Basic scraping | Grounded `ScrapeWebsiteTool` preventing hallucination on real URLs |
-| **Terminal Output** | Crashed on Windows PowerShell with emoji encodings | Built-in UTF-8 stdout configuration (`sys.stdout.reconfigure`) |
-| **Output Object** | Raw string | Modern `CrewOutput` interface (`result.raw` and `result.token_usage`) |
+| **LLM Provider** | Dependent on deprecated `langchain_community` wrappers | Native CrewAI `LLM` engine via standard OpenAI-compatible endpoints |
+| **Secret Management** | Interactive `getpass` calls (unstable in notebooks) | File-based `.env` loading via `python-dotenv` |
+| **Agent Delegation** | Defaulted to `True` | Defaulted to `False`; explicitly configured (`allow_delegation=True`) on QA |
+| **Tool Grounding** | Generic prompts prone to hallucination | Factual data retrieval through `ScrapeWebsiteTool` |
+| **Logging Configuration** | Integer verbosity levels (`verbose=2`) | Strict boolean configuration (`verbose=True`) |
+| **Output Schema** | Plain string return | Structured `CrewOutput` interface (`result.raw`, `result.token_usage`) |
+| **Platform Compatibility** | Windows console character encoding crashes | Standardized UTF-8 stdout reconfiguration |
 
 ---
 
-## 🛠️ Tech Stack & Requirements
+## Requirements
 
-* **Python:** `3.10+` (Tested on `3.13`)
-* **Framework:** `crewai==1.15.20`
-* **Tools:** `crewai-tools==1.15.20`
-* **Supported Cloud LLMs:**
-  * **Fireworks AI** (`deepseek-v4-flash-0731`) — *Recommended: High throughput, sub-second latency*
-  * **Groq** (`llama-3.3-70b-versatile` / `gpt-oss-20b`) — *Free cloud tier*
+* Python 3.10 to 3.13
+* Active API key for an OpenAI-compatible cloud provider:
+  * **Fireworks AI** (`deepseek-v4-flash-0731`) &mdash; *Default, low latency*
+  * **Groq** (`gpt-oss-20b` / `llama-3.3-70b-versatile`)
   * **OpenAI** (`gpt-4o-mini` / `gpt-4o`)
 
 ---
 
-## 🚀 Quickstart Guide
+## Setup
 
-### 1. Clone the Repository
+### 1. Clone Repository
 ```bash
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
@@ -64,77 +65,75 @@ cd your-repo-name
 ### 2. Install Dependencies
 ```bash
 pip install -r requirements.txt
-# Or directly:
-pip install "crewai[tools]==1.15.20" python-dotenv requests
 ```
 
-### 3. Configure API Keys
-Copy the example environment file:
+### 3. Configure Credentials
+Copy the sample environment file:
 ```bash
 cp .env.example .env
 ```
-Open `.env` and add your API keys:
+Populate `.env` with your API credentials:
 ```env
-# Fireworks AI (Recommended)
-FIREWORKS_API_KEY=fw_your_actual_key_here
+# Fireworks AI (Primary)
+FIREWORKS_API_KEY=your_fireworks_api_key
 
-# Groq (Optional free cloud backup)
-GROQ_API_KEY=gsk_your_actual_key_here
+# Groq (Alternative)
+GROQ_API_KEY=your_groq_api_key
 
-# OpenAI (Optional)
-OPENAI_API_KEY=sk-your_actual_key_here
+# OpenAI (Alternative)
+OPENAI_API_KEY=your_openai_api_key
 ```
 
 ---
 
-## 💻 Running the Projects
+## Execution
 
-### Running Customer Support Automation
+### Customer Support Automation (`customer_support.py`)
+Run with default ticket parameters:
 ```bash
-# Run with default inquiry (Andrew Ng / DeepLearningAI)
 python customer_support.py
-
-# Or pass custom ticket parameters from the command line:
-python customer_support.py --customer "TechCorp" --person "Alice" --inquiry "How do custom tools work in CrewAI?"
 ```
-*The finalized, QA-approved response will be automatically exported to `support_ticket_reply.md`.*
 
-### Running the Article Generator
+Pass custom ticket arguments:
 ```bash
-# Run with default topic
-python main.py
+python customer_support.py --customer "AcmeCorp" --person "Jane Doe" --inquiry "How do I configure memory in CrewAI?"
+```
+*The audited response is printed to the console and exported to `support_ticket_reply.md`.*
 
-# Or pass a custom topic:
+### Content Generation Pipeline (`main.py`)
+```bash
+python main.py
+```
+Or specify a custom topic:
+```bash
 python main.py "Quantum Computing"
 ```
 
-### Running in Jupyter Notebook
-If you prefer an interactive notebook experience:
-1. Launch Jupyter:
-   ```bash
-   jupyter notebook
-   ```
-2. Open [`crewai_agent.ipynb`](crewai_agent.ipynb) or [`customer_support.ipynb`](customer_support.ipynb).
-3. Click **Restart Kernel** and **Run All Cells**.
+### Jupyter Notebooks
+Both pipelines are available as standalone notebooks for interactive analysis:
+* [`crewai_agent.ipynb`](crewai_agent.ipynb)
+* [`customer_support.ipynb`](customer_support.ipynb)
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
-├── .env.example              # Template environment variables file
-├── .gitignore                # Safeguards API keys and checkpoints
+├── .env.example              # Sample environment configuration
+├── .gitignore                # Excludes secrets, caches, and checkpoints
+├── LICENSE                   # MIT License
 ├── README.md                 # Project documentation
 ├── requirements.txt          # Python dependencies
-├── main.py                   # Standalone Content Creation Crew (Lesson 2)
-├── crewai_agent.ipynb        # Content Creation Notebook (Lesson 2)
-├── customer_support.py       # Standalone Customer Support Crew (Lesson 3)
-├── customer_support.ipynb    # Customer Support Notebook (Lesson 3)
-├── support_ticket_reply.md   # Sample output generated by customer support agents
-└── utils.py                  # Environment and credential utility functions
+├── main.py                   # Research & Editorial pipeline
+├── crewai_agent.ipynb        # Research & Editorial notebook
+├── customer_support.py       # Customer Support automation pipeline
+├── customer_support.ipynb    # Customer Support automation notebook
+├── support_ticket_reply.md   # Sample output from customer support execution
+└── utils.py                  # Shared environment utilities
 ```
 
 ---
 
-## 📜 License
-MIT License. Feel free to use, modify, and learn from this implementation!
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
