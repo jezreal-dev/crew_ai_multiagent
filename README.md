@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/crewai_logo.png" alt="CrewAI Logo" width="420"/>
+  <img src="https://cdn.jsdelivr.net/gh/crewAIInc/crewAI@main/docs/images/crewai_logo.png" alt="CrewAI Logo" width="420"/>
   <h3>Multi-Agent Workflows with CrewAI 1.x</h3>
   <p>Production-ready multi-agent implementations based on the DeepLearning.AI course, refactored for modern CrewAI standards.</p>
 </div>
